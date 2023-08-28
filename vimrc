@@ -30,8 +30,11 @@ set nocp                    " 'compatible' is not set
 filetype plugin on          " plugins are enabled
 
 syntax on
+
+"Line numbers are on
 set number
 
+"My leader is -
 let mapleader = "-"
 
 "Add quick access to .vimrc file
@@ -41,5 +44,22 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 "Cscope things"
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 
+"Find Definitions of function or variable
 :nnoremap <leader>fd :cscope find 1 <c-r><c-w><cr>
+
+"map Escape to easily be able to reach normal mode any time
 :inoremap lkj <Esc>
+:vnoremap lkj <Esc>
+
+call plug#begin('~/.vim/plugged')
+Plug 'vim-airline/vim-airline'
+Plug 'stephpy/vim-yaml'
+call plug#end()
+
+"https://stackoverflow.com/questions/6852763/how-to-make-vim-quickfix-list-launch-files-in-a-new-tab
+set switchbuf+=usetab,newtab
+
+set hlsearch
+set incsearch
+set showcmd
+set wildmenu

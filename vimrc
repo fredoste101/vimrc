@@ -52,8 +52,8 @@ set cscopequickfix=s-,c-,d-,i-,t-,e-
 :vnoremap lkj <Esc>
 
 call plug#begin('~/.vim/plugged')
-Plug 'vim-airline/vim-airline'
-Plug 'stephpy/vim-yaml'
+	Plug 'vim-airline/vim-airline'
+	Plug 'stephpy/vim-yaml'
 call plug#end()
 
 "https://stackoverflow.com/questions/6852763/how-to-make-vim-quickfix-list-launch-files-in-a-new-tab
@@ -63,3 +63,4 @@ set hlsearch
 set incsearch
 set showcmd
 set wildmenu
+

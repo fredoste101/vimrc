@@ -1,3 +1,25 @@
+" 'compatible' is not set. I.E vim, not vi
+set nocp                    
+
+"MISC {{{
+
+"My leader is -
+let mapleader = "-"
+
+" plugins are enabled
+filetype plugin on          
+
+syntax on
+
+augroup CTRLS
+	autocmd!
+	autocmd VimEnter * !stty -ixon
+	autocmd VimLeave * !stty ixon
+augroup END
+	
+"}}}
+
+
 "DISABLE NOOB STUFF {{{ 
 "Disable arrow keyes for authentic vim experience
 " Remove newbie crutches in Command Mode
@@ -25,17 +47,96 @@ vnoremap 	<Right> <Nop>
 vnoremap 	<Up> 	<Nop>
 "}}}
 
+
 "VIMRC SPECIFIC {{{
+"Set folding specific for vimrc
 augroup vimrc
 	autocmd!
 	autocmd FileType vim :set fdm=marker 
 augroup END
 "}}}
 
+
+"MAPPINGS {{{
+"Add quick access to .vimrc file
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+"map Escape to easily be able to reach normal mode any time
+:inoremap lkj <Esc>
+:vnoremap lkj <Esc>
+
+"move in tabs easier
+:nnoremap <c-l> :tabn<CR>
+:nnoremap <c-h> :tabp<CR>
+
+"copy filename of current file
+:nnoremap <leader>ycfn :let @" = expand("%:t")<cr>
+:nnoremap <leader>ycff :let @" = expand("%")<cr>
+
+"When jumping to prev and next also align screen
+:nnoremap <c-o> <c-o>zz
+:nnoremap <c-i> <c-i>zz
+
+
+
+"CSCOPE {{{ - should be put in augroup
+"Find Definitions of function or variable
+:nnoremap <leader>fd :cscope find 1 <c-r><c-w><cr>zz
+:nnoremap <leader>sfd :vsplit<cr><c-w>l :cscope find 1 <c-r><c-w><cr>zz
+:nnoremap <leader>vfd :split<cr><c-w>k :cscope find 1 <c-r><c-w><cr>zz
+
+:nnoremap <leader>fc :cscope find c <c-r><c-w><cr>zz
+
+"}}}
+
+
+"PYTHON {{{ - should be put in augroup
+"In python jump to next function
+:nnoremap <leader>nf /def [a-zA-Z0-9_]*(<cr>zz:noh<CR>
+:nnoremap <leader>pf ?def [a-zA-Z0-9_]*(<cr>zz:noh<CR>
+"}}}
+
+
+"Ctrl+s to save
+:nnoremap <c-s> :w<cr> 
+
+"}}}
+
+
+"PLUGINS {{{
+
+"vim-plug {{{
+call plug#begin('~/.vim/plugged')
+	Plug 'vim-airline/vim-airline'
+	Plug 'stephpy/vim-yaml'
+	Plug 'preservim/nerdtree'
+	Plug 'kien/ctrlp.vim'
+	Plug 'vim-scripts/cppcomplete'
+call plug#end()
+"}}}
+
+"NERDTREE {{{
+augroup NERDTREE
+	autocmd!
+	" Exit Vim if NERDTree is the only window remaining in the only tab.
+	autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+	
+	" Open the existing NERDTree on each new tab.
+	autocmd BufWinEnter * if &buftype != 'quickfix' && getcmdwintype() == '' | silent NERDTreeMirror | endif
+" Mirror the NERDTree before showing it. This makes it the same on all tabs.
+"nnoremap <C-n> :NERDTreeMirror<CR>:NERDTreeFocus<CR>
+augroup END
+"}}}
+
+"}}}
+
+
 "OPTIONS {{{
 
 "Line numbers are on
 set number
+
 "Set default scrolloffset
 set scrolloff=5
 
@@ -47,43 +148,10 @@ set incsearch
 set showcmd
 set wildmenu
 
-" 'compatible' is not set. I.E vim, not vi
-set nocp                    
 
-"Cscope things"
+"Cscope things {{{"
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 
 "}}}
 
-"MAPPINGS {{{
-"Add quick access to .vimrc file
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-
-"map Escape to easily be able to reach normal mode any time
-:inoremap lkj <Esc>
-:vnoremap lkj <Esc>
-
-"Find Definitions of function or variable
-:nnoremap <leader>fd :cscope find 1 <c-r><c-w><cr>
-"}}}
-
-"MISC {{{
-
-"My leader is -
-let mapleader = "-"
-
-" plugins are enabled
-filetype plugin on          
-
-syntax on
-
-
-"}}}
-
-"vim-plug {{{
-call plug#begin('~/.vim/plugged')
-	Plug 'vim-airline/vim-airline'
-	Plug 'stephpy/vim-yaml'
-call plug#end()
 "}}}

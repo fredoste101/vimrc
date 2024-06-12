@@ -1,5 +1,5 @@
 " 'compatible' is not set. I.E vim, not vi
-set nocp                    
+set nocp
 
 "MISC {{{
 
@@ -7,20 +7,20 @@ set nocp
 let mapleader = "-"
 
 " plugins are enabled
-filetype plugin on          
+filetype plugin on
 
 syntax on
 
-augroup CTRLS
-	autocmd!
-	autocmd VimEnter * !stty -ixon
-	autocmd VimLeave * !stty ixon
-augroup END
-	
+"augroup CTRLS
+"	autocmd!
+"	autocmd VimEnter * !stty -ixon
+"	autocmd VimLeave * !stty ixon
+"augroup END
+
 "}}}
 
 
-"DISABLE NOOB STUFF {{{ 
+"DISABLE NOOB STUFF {{{
 "Disable arrow keyes for authentic vim experience
 " Remove newbie crutches in Command Mode
 cnoremap 	<Down>	<Nop>
@@ -52,7 +52,7 @@ vnoremap 	<Up> 	<Nop>
 "Set folding specific for vimrc
 augroup vimrc
 	autocmd!
-	autocmd FileType vim :set fdm=marker 
+	autocmd FileType vim :set fdm=marker
 augroup END
 "}}}
 
@@ -88,6 +88,12 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 
 :nnoremap <leader>fc :cscope find c <c-r><c-w><cr>zz
 
+"Find usage of variable
+:nnoremap <leader>fu :cscope find s <c-r><c-w><cr>zz
+
+"Find assignment of variable
+:nnoremap <leader>fa :cscope find a <c-r><c-w><cr>zz
+
 "}}}
 
 
@@ -99,21 +105,15 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 
 
 "Ctrl+s to save
-:nnoremap <c-s> :w<cr> 
+:nnoremap <c-s> :w<cr>
 
 "}}}
 
 
 "PLUGINS {{{
 
-"vim-plug {{{
-call plug#begin('~/.vim/plugged')
-	Plug 'vim-airline/vim-airline'
-	Plug 'stephpy/vim-yaml'
-	Plug 'preservim/nerdtree'
-	Plug 'kien/ctrlp.vim'
-	Plug 'vim-scripts/cppcomplete'
-call plug#end()
+"pathogen {{{
+	execute pathogen#infect()
 "}}}
 
 "NERDTREE {{{
@@ -121,11 +121,12 @@ augroup NERDTREE
 	autocmd!
 	" Exit Vim if NERDTree is the only window remaining in the only tab.
 	autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-	
+
 	" Open the existing NERDTree on each new tab.
 	autocmd BufWinEnter * if &buftype != 'quickfix' && getcmdwintype() == '' | silent NERDTreeMirror | endif
-" Mirror the NERDTree before showing it. This makes it the same on all tabs.
-"nnoremap <C-n> :NERDTreeMirror<CR>:NERDTreeFocus<CR>
+
+	" Mirror the NERDTree before showing it. This makes it the same on all tabs.
+	"nnoremap <C-n> :NERDTreeMirror<CR>:NERDTreeFocus<CR>
 augroup END
 "}}}
 
